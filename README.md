@@ -28,7 +28,9 @@ We are using the [http://deckofcardsapi.com/]() to create a shuffled deck of car
 
 ### Part 1
 
-When a new game is created a new deck is created and assigned to the game. Once all the players have joined the game then the total cards required need to be requested from the deckofcards api, and then distributed to the players, as they would if being dealt by a person. E.g. every player gets their first card, and then every player gets their second card etc. From the frontend the cards you have been dealt should then be displayed:
+*Existing functionality*: You can create a new game, or join an existing game, and the server requires all players to have joined before proceeding to fetching cards.
+
+*To do:* Make an API request to the deckofcards api to request 5 cards for the current user, [more details here](https://github.com/spacebetween/poker-dev-exercise/blob/master/src/handlers/gamePlay.js). Render the cards returned from the API in the view, matching the layout of the design below:
 
 ![Layout](<https://i.imgur.com/mKmxm6a.png>)
 

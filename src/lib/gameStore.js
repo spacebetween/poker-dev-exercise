@@ -41,11 +41,6 @@ const addPlayer = (gameId, playerId) => {
   return updateGame(gameId, { ...game, players });
 };
 
-const isReadyToStart = gameId => {
-  const game = getGame(gameId);
-  return allPlayersJoined(game);
-};
-
 const allPlayersExchanged = gameId => {
   const { players } = getGame(gameId);
   return (
@@ -58,6 +53,6 @@ module.exports = {
   saveNewGame,
   getGame,
   addPlayer,
-  isReadyToStart,
+  allPlayersJoined,
   allPlayersExchanged
 };
