@@ -1,0 +1,22 @@
+<h3>Waiting for other players to join...</h3>
+
+<p>Share the game ID <%= gameId %> with the other players so they can join this game.</p>
+
+<script>
+  const checkGameStatus = function(){
+    var xhr = new XMLHttpRequest;
+    var gameUrl = '/games/<%= gameId %>';
+
+    xhr.open('GET', gameUrl);
+
+    xhr.onload = function () {
+      if (xhr.responseURL.indexOf('pending') === -1) { // not pending
+        document.location = gameUrl;
+      }
+    };
+
+    xhr.send();
+  }
+
+  setInterval(checkGameStatus, 1000);
+</script>
