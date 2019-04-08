@@ -1,4 +1,4 @@
-const { getGame } = require("../lib/gameStore");
+const { allPlayersJoined, getGame } = require("../lib/gameStore");
 
 const gamePlayHandler = async (req, h) => {
   const { gameId } = req.params;
