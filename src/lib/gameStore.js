@@ -52,6 +52,7 @@ const allPlayersExchanged = gameId => {
 module.exports = {
   saveNewGame,
   getGame,
+  updateGame,
   addPlayer,
   allPlayersJoined,
   allPlayersExchanged

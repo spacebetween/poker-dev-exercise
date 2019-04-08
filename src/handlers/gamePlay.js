@@ -1,36 +1,41 @@
-const { allPlayersJoined, getGame } = require("../lib/gameStore");
+const axios = require("axios");
+const { allPlayersJoined, getGame, updateGame } = require("../lib/gameStore");
+
+const chunk = (arr, len) => {
+  const chunks = [];
+  const n = arr.length;
+  let i = 0;
+  while (i < n) {
+    chunks.push(arr.slice(i, (i += len)));
+  }
+  return chunks;
+};
 
 const gamePlayHandler = async (req, h) => {
   const { gameId } = req.params;
   const game = getGame(gameId);
+  const { players } = game;
+
   if (!allPlayersJoined(game)) {
     return h.redirect(`/games/${gameId}/pending`);
   }
 
   // All players have joined
-  // PART 1
-  // Fetch 5 cards from the API, and then render them in the view
-  const apiUrl = `https://deckofcardsapi.com/api/deck/${
-    game.deck.id
-  }/draw/?count=5`;
-  // the format of the response is:
-  // {
-  //  "success": true,
-  //  "cards": [
-  //      {
-  //          "image": "https://deckofcardsapi.com/static/img/KH.png",
-  //          "value": "KING",
-  //          "suit": "HEARTS",
-  //          "code": "KH"
-  //      },
-  //      ...
-  //  ],
-  //  "deck_id":"3p40paa87x90",
-  //  "remaining": 50
-  //}
-
-  // render the view
-  return h.view("game", { gameId });
+  const deckId = game.deck.id;
+  const apiUrl = `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=${game.numPlayers *
+    5}`;
+  return axios
+    .get(apiUrl)
+    .then(res => res.data.cards)
+    .then(cards => chunk(cards, 5))
+    .then(hands => {
+      Object.keys(players).forEach(
+        (playerId, idx) => (players[playerId].cards = hands[idx])
+      );
+      const newGameState = { ...game, players };
+      updateGame(gameId, newGameState);
+    })
+    .then(() => h.view("game", { gameId }));
 };
 
 module.exports = gamePlayHandler;

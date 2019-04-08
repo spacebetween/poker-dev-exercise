@@ -1,19 +1,18 @@
 <h3>Your hand:</h3>
 
 <script>
+  const gameId = '<%= gameId %>';
+
+  // Fetch the current users cards here from `/games/${gameId}/cards`
+
+
+
   const checkExchangeStatus = function(){
-    var xhr = new XMLHttpRequest;
-    var gameUrl = '/games/<%= gameId %>/allExchanged';
-
-    xhr.open('GET', gameUrl);
-
-    xhr.onload = function () {
+    $.ajax(`/games/${gameId}/allExchanged`).done(function(data, textStatus, xhr){
       if (xhr.status !== 202) { // not pending
-        document.location = '/games/<%= gameId %>/result';
+        document.location = `/games/${gameId}/result`;
       }
-    };
-
-    xhr.send();
+    })
   }
 
   setInterval(checkExchangeStatus, 1000);
