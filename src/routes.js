@@ -3,6 +3,7 @@ const Joi = require("joi");
 const newGameHandler = require("./handlers/newGame");
 const joinGameHandler = require("./handlers/joinGame");
 const gamePlayHandler = require("./handlers/gamePlay");
+const cardsHandler = require("./handlers/cards");
 const exchangeCheckHandler = require("./handlers/exchangeCheck");
 const resultHandler = require("./handlers/result");
 
@@ -53,6 +54,11 @@ module.exports = [
     method: "GET",
     path: "/games/{gameId}/allExchanged",
     handler: exchangeCheckHandler
+  },
+  {
+    method: "GET",
+    path: "/games/{gameId}/cards",
+    handler: cardsHandler
   },
   {
     method: "GET",
