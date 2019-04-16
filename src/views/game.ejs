@@ -1,9 +1,38 @@
-<h3>Your hand:</h3>
+<div class="card-wrap">
+  <div id=output></div>
+
+  <div class="box">
+    <h1>5 Card Draw</h1>
+    <h2>It's like poker but easy</h2>
+    <button>Burn selected cards</button>
+  </div><!--box-->
+</div><!--wrap-->
 
 <script>
   const gameId = '<%= gameId %>';
 
   // Fetch the current users cards here from `/games/${gameId}/cards`
+
+    fetch(`/games/${gameId}/cards`)
+      .then((res) => res.json())
+      .then((data) => {
+        let output = '<h3 class="hand">Your hand</h3>';
+        data.forEach(function(card) {
+          output += `
+            <div class="card-container">
+              <div class="card">
+                <img src="${card.image}">
+              </div>
+              <div class="discard">
+                <form>
+                  <input type="checkbox" name="discard" value="discard">Discard
+                </form>
+              </div>
+            </div>
+          `;
+        });
+        document.getElementById('output').innerHTML = output;
+      })
 
 
 
